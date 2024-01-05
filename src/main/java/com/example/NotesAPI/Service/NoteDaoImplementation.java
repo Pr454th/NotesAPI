@@ -2,7 +2,6 @@ package com.example.NotesAPI.Service;
 
 import com.example.NotesAPI.DTO.NotePostDTO;
 import com.example.NotesAPI.DTO.NoteGetDTO;
-import com.example.NotesAPI.DTO.UserDTO;
 import com.example.NotesAPI.Entity.Note;
 import com.example.NotesAPI.Entity.User;
 import com.example.NotesAPI.Exception.NoteNotFoundException;

@@ -1,6 +1,10 @@
 package com.example.NotesAPI.Controller;
 
-import com.example.NotesAPI.DTO.UserDTO;
+import com.example.NotesAPI.DTO.UserGetDTO;
+import com.example.NotesAPI.DTO.UserPostDTO;
+import com.example.NotesAPI.Exception.EmailAlreadyExistException;
+import com.example.NotesAPI.Exception.OtherDatabaseException;
+import com.example.NotesAPI.Exception.UserNotFoundException;
 import com.example.NotesAPI.Service.UserServiceDaoInterface;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,16 +18,14 @@ public class UserController {
     UserServiceDaoInterface service;
 
     @RequestMapping(path="/user",method = RequestMethod.POST)
-    Integer registerUser(@RequestBody @Valid UserDTO userDTO){
-        Integer response=service.saveUser(userDTO);
-        if(response!=null) return response;
-        return -1;
+    ResponseEntity<?> registerUser(@RequestBody @Valid UserPostDTO userDTO) throws EmailAlreadyExistException, OtherDatabaseException {
+        service.saveUser(userDTO);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @RequestMapping(path="/user/{id}",method = RequestMethod.GET)
-    ResponseEntity<UserDTO> userDetails(@PathVariable(value="id") Integer id){
-        UserDTO userDTO=service.getuser(id);
-        if(userDTO!=null) return new ResponseEntity<>(userDTO,HttpStatus.OK);
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    ResponseEntity<UserGetDTO> userDetails(@PathVariable(value="id") Integer id) throws UserNotFoundException {
+        UserGetDTO userDTO=service.getuser(id);
+        return new ResponseEntity<>(userDTO,HttpStatus.OK);
     }
 }

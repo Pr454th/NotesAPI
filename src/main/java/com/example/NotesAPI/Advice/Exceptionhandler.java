@@ -1,6 +1,8 @@
 package com.example.NotesAPI.Advice;
 
+import com.example.NotesAPI.Exception.EmailAlreadyExistException;
 import com.example.NotesAPI.Exception.NoteNotFoundException;
+import com.example.NotesAPI.Exception.OtherDatabaseException;
 import com.example.NotesAPI.Exception.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -37,6 +39,22 @@ public class Exceptionhandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(UserNotFoundException.class)
     public Map<String,String> handleUserNotFound(UserNotFoundException exception){
+        Map<String,String> errorMap=new HashMap<>();
+        errorMap.put("error",exception.getMessage());
+        return errorMap;
+    }
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(EmailAlreadyExistException.class)
+    public Map<String,String> handleEmailExists(EmailAlreadyExistException exception){
+        Map<String,String> errorMap=new HashMap<>();
+        errorMap.put("error",exception.getMessage());
+        return errorMap;
+    }
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(OtherDatabaseException.class)
+    public Map<String,String> handleDatabaseException(OtherDatabaseException exception){
         Map<String,String> errorMap=new HashMap<>();
         errorMap.put("error",exception.getMessage());
         return errorMap;

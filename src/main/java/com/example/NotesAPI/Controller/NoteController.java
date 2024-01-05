@@ -2,7 +2,6 @@ package com.example.NotesAPI.Controller;
 
 import com.example.NotesAPI.DTO.NotePostDTO;
 import com.example.NotesAPI.DTO.NoteGetDTO;
-import com.example.NotesAPI.Entity.Note;
 import com.example.NotesAPI.Exception.NoteNotFoundException;
 import com.example.NotesAPI.Exception.UserNotFoundException;
 import com.example.NotesAPI.Service.NoteServiceDaoInterface;
@@ -44,8 +43,8 @@ public class NoteController {
     }
 
     @RequestMapping(path="/note/{id}",method = RequestMethod.PUT)
-    ResponseEntity<NoteGetDTO> updateNote(@PathVariable(value="id") Integer id,@RequestBody NotePostDTO noteDTO){
-        noteService.updateNote(noteDTO);
+    ResponseEntity<NoteGetDTO> updateNote(@PathVariable(value="id") Integer id,@RequestBody NotePostDTO noteDTO) throws NoteNotFoundException {
+        noteService.updateNote(id,noteDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
